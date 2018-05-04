@@ -1,5 +1,8 @@
 package ca.switchboard.endpoint;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ValidationService {
 
     public void validateRequest(TopHitsRequest request, int depth) throws BadRequestException {

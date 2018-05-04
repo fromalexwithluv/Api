@@ -6,7 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PageTrafficService {
 
     public List<String> computeTopHits(TopHitsRequest request, int depth) {

@@ -2,6 +2,7 @@ package ca.switchboard.endpoint;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,21 +21,25 @@ public class PageTrafficController {
     private final AtomicLong counter = new AtomicLong();
     private static final Logger LOG = LoggerFactory.getLogger(PageTrafficController.class);
 
+    @Resource
+    PageTrafficService processingService;
+
+    @Resource
+    ValidationService validationService;
+
     @RequestMapping(value = "/{depth}/maxhits", method = PUT)
     public List<String> fetchPopularPaths(@PathVariable int depth, @RequestBody TopHitsRequest request) throws BadRequestException {
 
         LOG.info("Validating client request: {} ", counter.incrementAndGet());
-        ValidationService validationService = new ValidationService();
         validationService.validateRequest(request, depth);
 
         LOG.info("Finding {}-Page winner(s)...", depth);
-        PageTrafficService processingService = new PageTrafficService();
         final List<String> mostVisitedUrls = processingService.computeTopHits(request, depth);
         return mostVisitedUrls;
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Invalid Request")
     @ExceptionHandler({BadRequestException.class})
-    public void handleException() {
+    public void handleBadRequestException() {
     }
 }
