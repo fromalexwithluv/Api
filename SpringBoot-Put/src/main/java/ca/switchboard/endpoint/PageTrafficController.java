@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +27,7 @@ public class PageTrafficController {
     @Resource
     ValidationService validationService;
 
-    @RequestMapping(value = "/{depth}/maxhits", method = PUT)
+    @RequestMapping(value = "/{depth}/maxhits", method = RequestMethod.PUT)
     public List<String> fetchPopularPaths(@PathVariable int depth, @RequestBody TopHitsRequest request) throws BadRequestException {
 
         LOG.info("Validating client request: {} ", counter.incrementAndGet());
